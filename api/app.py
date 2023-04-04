@@ -40,6 +40,7 @@ def chat():
 
         # Extract the first generated text from the response
         generated_text = response.choices[0].message.content
+        generated_text = generated_text.replace('\n', '<br/>')
 
         # Return the generated text to the user
         return jsonify({'message': generated_text})
