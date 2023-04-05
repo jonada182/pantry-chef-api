@@ -30,6 +30,9 @@ def chat():
         # Get the user message from the request body
         user_message = request.json['message']
 
+        if user_message is "":
+            abort(400, "Message can't be empty")
+
         # Generate a response using GPT
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
