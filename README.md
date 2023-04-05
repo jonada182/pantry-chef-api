@@ -11,10 +11,11 @@ A Flask application that uses the [OpenAI Chat API](https://platform.openai.com/
 ```
 OPENAI_API_KEY=YOUR_API_KEY
 OPENAI_ORG_ID=YOUR_ORG_ID
+FLASK_PORT=5001
 ```
 
 4.  Run `docker-compose up` to start the application
-5.  Open your browser and go to `http://localhost:5000`
+5.  Open your browser and go to `http://localhost:5001` (or the port you used for `FLASK_PORT`)
 
 ## Available Endpoints
 
@@ -45,6 +46,10 @@ The API key for the OpenAI API. This is a required field.
 ### `OPENAI_ORG_ID`
 
 The organization ID for the OpenAI API. This is a required field.
+
+### `FLASK_PORT`
+
+The port number that Flask can use to expose the API. (Recommended: 5001)
 
 ## Learn More
 

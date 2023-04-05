@@ -7,14 +7,14 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Set environment variables
+ENV FLASK_APP=api/app.py
+
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Set the FLASK_APP environment variable
-ENV FLASK_APP=api/app.py
-
-# Expose port 5001 for Flask
-EXPOSE 5001
+# Expose port ${PORT} for Flask
+EXPOSE $FLASK_PORT
 
 # Run the command to start Flask
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5001"]
+CMD flask run -h 0.0.0.0 -p $FLASK_PORT
