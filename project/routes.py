@@ -1,27 +1,7 @@
-from flask import Flask, abort, request, jsonify
-from flask_cors import CORS
-import openai
-import os
+from flask import abort, request, jsonify
+from project import app, openai
 
-app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-
-# Initialize the OpenAI API client
-openai.api_key = os.environ['OPENAI_API_KEY']
-openai.organization = os.environ['OPENAI_ORG_ID']
-
-# General error handler
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return jsonify({'error': 'Not found'}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({'error': 'Internal server error'}), 500
-
-# Define a route to handle POST requests
+# Define a route to handle chat requests
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
@@ -30,7 +10,7 @@ def chat():
         # Get the user message from the request body
         user_message = request.json['message']
 
-        if user_message is "":
+        if user_message == "":
             abort(400, "Message can't be empty")
 
         # Generate a response using GPT
@@ -50,6 +30,3 @@ def chat():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')

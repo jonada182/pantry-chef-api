@@ -3,8 +3,8 @@ services:
   app:
     build: .
     ports:
-      - "${FLASK_PORT}:${FLASK_PORT}"
-    environment:
-      - FLASK_PORT=${FLASK_PORT}
+      - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
+    env_file:
+      - .env
     volumes:
       - ./api:/app/api
