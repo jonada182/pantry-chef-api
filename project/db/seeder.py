@@ -49,7 +49,6 @@ def seedData (dbClient):
                     'name': item_name,
                     'categoryId': category_id,
                     'slug': item_name.lower().replace(' ', '-'),
-                    'id': f"{category_id}-{item_name.lower().replace(' ', '-')}"
                 }
                 items.append(item)
 
