@@ -1,10 +1,12 @@
 import json
 
-
-def seedData (db):
+def seedData (dbClient):
+    if dbClient is None:
+        return
+    db = dbClient
     # Save grocery categories into MongoDB
     categories_collection_name = 'groceries.categories'
-    items_collection_name = 'groceries.categories'
+    items_collection_name = 'groceries.items'
     if categories_collection_name in db.list_collection_names():
         print(f'The collection {categories_collection_name} already exists')
     else:
@@ -36,7 +38,7 @@ def seedData (db):
             # Find category ID from MongoDB
             category_doc = categories_collection.find_one({'name': category['name']})
             if category_doc:
-                category_id = category_doc['id']
+                category_id = category_doc['_id']
             else:
                 print(f"Category '{category['name']}' not found in database")
                 continue

@@ -21,6 +21,10 @@ def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
 from project import routes
+from project.db import dbClient, routes, seedData
+
+# Seed JSON data to MongoDB
+seedData(dbClient)
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=os.getenv('FLASK_RUN_PORT', 5000), debug=True)

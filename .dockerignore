@@ -1,0 +1,4 @@
+# Ignore mongo db local volume
+/data
+# Ignore python cache files
+__pycache__
