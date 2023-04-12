@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Produce",
+    "slug": "produce"
+  },
+  {
+    "name": "Dairy",
+    "slug": "dairy"
+  },
+  {
+    "name": "Meat",
+    "slug": "meat"
+  },
+  {
+    "name": "Canned Goods",
+    "slug": "canned-goods"
+  },
+  {
+    "name": "Bakery",
+    "slug": "bakery"
+  },
+  {
+    "name": "Pantry",
+    "slug": "pantry"
+  }
+]
