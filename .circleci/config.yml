@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Deploy to EC2 instance
           command: |
-            aws ssm start-session --target $AWS_INSTANCE_ID --document-name AWS-StartSSHSession --parameters 'portNumber=["22"],localPortNumber=["8080"]'
+            aws ssm start-session --target $AWS_INSTANCE_ID --document-name AWS-StartSSHSession --parameters 'portNumber=["22"]'
             ssh -i $SSH_KEY_FILE ec2-user@$AWS_INSTANCE_IP "sudo systemctl stop chatbot-api.service && sudo docker pull $ECR_REGISTRY/chatbot-api:latest && sudo systemctl start chatbot-api.service"
 
 # Invoke jobs via workflows
