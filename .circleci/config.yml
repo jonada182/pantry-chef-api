@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Deploy to EC2 instance
           command: |
-            ssh ec2-user@$AWS_INSTANCE_IP "sudo systemctl stop chatbot-api.service && sudo docker pull $ECR_REGISTRY/chatbot-api:latest && sudo systemctl start chatbot-api.service"
+            ssh -o StrictHostKeyChecking=accept-new -i $HOME/.ssh/id_rsa_e6b0ddbb2abac3baa40f91da072be271 ec2-user@$AWS_INSTANCE_IP "sudo systemctl stop chatbot-api.service && sudo docker pull $ECR_REGISTRY/chatbot-api:latest && sudo systemctl start chatbot-api.service"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
