@@ -1,23 +1,6 @@
 version: 2.1
 
-orbs:
-  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
-  python: circleci/python@1.5.0
-
 jobs:
-  build_and_test: # This is the name of the job, feel free to change it to better match what you're trying to do!
-    docker:
-      - image: cimg/python:3.10.2
-    steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If your requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
-      # - run:
-          # name: Run tests
-          # This assumes pytest is installed via the install-package step above
-           #command: pytest
   deploy:
     docker:
       - image: cimg/aws:2023.04
@@ -51,10 +34,7 @@ jobs:
 workflows:
   build_test_deploy:
     jobs:
-      - build_and_test
       - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
           filters:
             branches:
               only: main # only deploy when on main
