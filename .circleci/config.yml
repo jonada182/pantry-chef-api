@@ -21,6 +21,9 @@ jobs:
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
             docker tag chatbot-api:latest $ECR_REGISTRY/chatbot-api:latest
             docker push $ECR_REGISTRY/chatbot-api:latest
+      - add_ssh_keys:
+          fingerprints:
+          - "e6:b0:dd:bb:2a:ba:c3:ba:a4:0f:91:da:07:2b:e2:71"
       - run:
           name: Deploy to EC2 instance
           command: |
