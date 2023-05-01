@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Deploy to EC2 instance
           command: |
-            ssh -o StrictHostKeyChecking=accept-new -i $HOME/.ssh/id_rsa_e6b0ddbb2abac3baa40f91da072be271 ec2-user@$AWS_INSTANCE_IP "if [ \$(sudo docker ps -q -f name=$CONTAINER_NAME) ]; then sudo docker stop $CONTAINER_NAME && sudo docker rm $CONTAINER_NAME; fi && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY && sudo docker pull $ECR_REGISTRY/$CONTAINER_NAME:latest && sudo docker run -d --name $CONTAINER_NAME -p 80:5000 $ECR_REGISTRY/$CONTAINER_NAME:latest"
+            ssh -o StrictHostKeyChecking=accept-new -i $HOME/.ssh/id_rsa_e6b0ddbb2abac3baa40f91da072be271 ec2-user@$AWS_INSTANCE_IP "if [ \$(sudo docker ps -q -f name=$CONTAINER_NAME) ]; then sudo docker stop $CONTAINER_NAME && sudo docker rm $CONTAINER_NAME; fi && aws ecr get-login-password --region $AWS_REGION | sudo docker login --username AWS --password-stdin $ECR_REGISTRY && sudo docker pull $ECR_REGISTRY/$CONTAINER_NAME:latest && sudo docker run -d --name $CONTAINER_NAME -p 80:5000 $ECR_REGISTRY/$CONTAINER_NAME:latest"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
