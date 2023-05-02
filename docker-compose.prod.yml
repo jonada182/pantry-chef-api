@@ -6,15 +6,15 @@ services:
       - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
     env_file:
       - .env
-    volumes:
-      - .:/app
     depends_on:
       - mongo
     environment:
       MONGO_URI: "mongodb://mongo:27017/chatbot"
+    restart: on-failure:5
   mongo:
     image: mongo:5.0.16
     volumes:
       - ./data:/data/db
     ports:
       - "27017:27017"
+    restart: on-failure:5
