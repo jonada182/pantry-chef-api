@@ -51,11 +51,19 @@ jobs:
           fingerprints:
           - "e6:b0:dd:bb:2a:ba:c3:ba:a4:0f:91:da:07:2b:e2:71"
       - run:
-          name: Deploy to AWS EC2 instance
+          name: Attach Image
           command: |
             sed -i "s|build: .|image: $ECR_REGISTRY/$CONTAINER_NAME:latest|" docker-compose.prod.yml
+      - run:
+          name: Deploy to AWS EC2 instance
+          command: |
             scp -o StrictHostKeyChecking=no ./.env docker-compose.prod.yml deploy.sh ec2-user@$AWS_INSTANCE_IP:/tmp
             ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'sudo chmod +x /tmp/deploy.sh && /tmp/deploy.sh'
+      - run:
+          name: Deploy to AWS EC2 instance 2
+          command: |
+            scp -o StrictHostKeyChecking=no ./.env docker-compose.prod.yml deploy.sh ec2-user@$AWS_INSTANCE_2_IP:/tmp
+            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_2_IP 'sudo chmod +x /tmp/deploy.sh && /tmp/deploy.sh'
 
 workflows:
   version: 2
