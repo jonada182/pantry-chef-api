@@ -3,6 +3,17 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.2.1
 
+commands:
+  create_env_file:
+    description: "Create .env file"
+    steps:
+      - run:
+          name: Create .env file
+          command: |
+            echo "FLASK_RUN_PORT=$FLASK_RUN_PORT" > .env
+            echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+            echo "OPENAI_ORG_ID=$OPENAI_ORG_ID" >> .env
+
 jobs:
   build:
     docker:
@@ -12,6 +23,7 @@ jobs:
       CONTAINER_NAME: "chatbot-api"
     steps:
       - checkout
+      - create_env_file
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -34,6 +46,7 @@ jobs:
       CONTAINER_NAME: "chatbot-api"
     steps:
       - checkout
+      - create_env_file
       - add_ssh_keys:
           fingerprints:
           - "e6:b0:dd:bb:2a:ba:c3:ba:a4:0f:91:da:07:2b:e2:71"
