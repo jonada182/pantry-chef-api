@@ -12,6 +12,8 @@ services:
       - mongo
     environment:
       MONGO_URI: "mongodb://mongo:27017/chatbot"
+      FLASK_APP: "wsgi.py"
+      PYTHONPATH: "/app"
   mongo:
     image: mongo:5.0.16
     volumes:
