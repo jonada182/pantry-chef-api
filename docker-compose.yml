@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./project:/app/project
+      - ./:/app
     depends_on:
       - mongo
     environment:
