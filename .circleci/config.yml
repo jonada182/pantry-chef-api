@@ -55,7 +55,8 @@ jobs:
           command: |
             sed -i "s|build: .|image: $ECR_REGISTRY/$CONTAINER_NAME:latest|" docker-compose.yml
             scp -o StrictHostKeyChecking=no ./.env docker-compose.yml deploy.sh ec2-user@$AWS_INSTANCE_IP:/tmp
-            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'sudo bash -s' < /tmp/deploy.sh
+            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'aws ecr get-login-password --region $AWS_REGION | sudo docker login --username AWS --password-stdin $ECR_REGISTRY'
+            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'sudo chmod +x /tmp/deploy.sh && /tmp/deploy.sh'
 
 workflows:
   version: 2
