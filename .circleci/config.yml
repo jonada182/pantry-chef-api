@@ -54,8 +54,8 @@ jobs:
           name: Deploy to AWS EC2 instance
           command: |
             sed -i "s|build: .|image: $ECR_REGISTRY/$CONTAINER_NAME:latest|" docker-compose.yml
-            scp -o StrictHostKeyChecking=no ./.env docker-compose.yml ec2-user@$AWS_INSTANCE_IP:/home/ec2-user/$CONTAINER_NAME
-            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'cd /home/ec2-user/$CONTAINER_NAME && docker-compose -f docker-compose.yml down && docker-compose -f docker-compose.yml up -d'
+            scp -o StrictHostKeyChecking=no ./.env docker-compose.yml deploy.sh ec2-user@$AWS_INSTANCE_IP:/tmp
+            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'bash -s' < /tmp/deploy.sh
 
 workflows:
   version: 2
