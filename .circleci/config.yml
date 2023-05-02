@@ -1,9 +1,12 @@
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@7.0.0
+
 jobs:
-  deploy:
+  build:
     docker:
-      - image: cimg/aws:2023.04
+      - image: cimg/python:3.11.3
     environment:
       AWS_REGION: "ca-central-1"
       CONTAINER_NAME: "chatbot-api"
@@ -12,30 +15,44 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build Docker image
-          command: |
-            docker build -t $CONTAINER_NAME .
+          name: Build the Docker image
+          command: docker-compose build app
+      - aws-ecr/login:
+          region: $AWS_REGION
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
       - run:
-          name: Push Docker image to ECR
+          name: Tag and push Docker image
           command: |
-            echo $AWS_REGION | echo $AWS_ACCESS_KEY_ID
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-            docker tag $CONTAINER_NAME:latest $ECR_REGISTRY/$CONTAINER_NAME:latest
+            docker tag app $ECR_REGISTRY/$CONTAINER_NAME:latest
             docker push $ECR_REGISTRY/$CONTAINER_NAME:latest
+
+  deploy:
+    docker:
+      - image: cimg/base:2023.04
+    environment:
+      CONTAINER_NAME: "chatbot-api"
+    steps:
+      - checkout
       - add_ssh_keys:
           fingerprints:
           - "e6:b0:dd:bb:2a:ba:c3:ba:a4:0f:91:da:07:2b:e2:71"
       - run:
-          name: Deploy to EC2 instance
+          name: Deploy to AWS EC2 instance
           command: |
-            ssh -o StrictHostKeyChecking=accept-new -i $HOME/.ssh/id_rsa_e6b0ddbb2abac3baa40f91da072be271 ec2-user@$AWS_INSTANCE_IP "if [ \$(sudo docker ps -q -f name=$CONTAINER_NAME) ]; then sudo docker stop $CONTAINER_NAME && sudo docker rm $CONTAINER_NAME; fi && aws ecr get-login-password --region $AWS_REGION | sudo docker login --username AWS --password-stdin $ECR_REGISTRY && sudo docker pull $ECR_REGISTRY/$CONTAINER_NAME:latest && sudo docker run -d --name $CONTAINER_NAME -p 80:5000 $ECR_REGISTRY/$CONTAINER_NAME:latest"
+            sed -i "s|build: .|image: $ECR_REGISTRY/$CONTAINER_NAME:latest|" docker-compose.yml
+            scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@$AWS_INSTANCE_IP:/home/ec2-user/$CONTAINER_NAME
+            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'cd /home/ec2-user/$CONTAINER_NAME && docker-compose down && docker-compose up -d'
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build_test_deploy:
+  version: 2
+  build-deploy:
     jobs:
+      - build
       - deploy:
+          requires:
+            - build
           filters:
             branches:
-              only: main # only deploy when on main
+              only:
+                - main
