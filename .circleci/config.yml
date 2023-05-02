@@ -51,10 +51,6 @@ jobs:
           fingerprints:
           - "e6:b0:dd:bb:2a:ba:c3:ba:a4:0f:91:da:07:2b:e2:71"
       - run:
-          name: Create app directory in EC2 instance
-          command: |
-            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'mkdir -p /home/ec2-user/$CONTAINER_NAME && echo "Directory created" || echo "Failed to create directory"'
-      - run:
           name: Deploy to AWS EC2 instance
           command: |
             sed -i "s|build: .|image: $ECR_REGISTRY/$CONTAINER_NAME:latest|" docker-compose.yml
