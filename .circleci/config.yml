@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Create app directory in EC2 instance
           command: |
-            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'mkdir -p /home/ec2-user/$CONTAINER_NAME'
+            ssh -o StrictHostKeyChecking=no ec2-user@$AWS_INSTANCE_IP 'mkdir -p /home/ec2-user/$CONTAINER_NAME && echo "Directory created" || echo "Failed to create directory"'
       - run:
           name: Deploy to AWS EC2 instance
           command: |
