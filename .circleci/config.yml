@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Tag and push Docker image
           command: |
-            docker tag app $ECR_REGISTRY/$CONTAINER_NAME:latest
+            docker tag $CONTAINER_NAME:latest $ECR_REGISTRY/$CONTAINER_NAME:latest
             docker push $ECR_REGISTRY/$CONTAINER_NAME:latest
 
   deploy:
