@@ -66,7 +66,7 @@ def chat():
             image_response = openai.Image.create(
                 prompt=generated_text['title'],
                 n=1,
-                size="512x512"
+                size="1024x1024",
             )
             image_url = image_response.data[0].url
 
