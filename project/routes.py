@@ -29,7 +29,7 @@ def chat():
             abort(400, "Message can't be empty")
 
         if is_recipe:
-            user_message = user_message + " - JSON only: title, ingredients, instructions"
+            user_message = user_message + " - JSON: title:string, ingredients:string[], instructions:string[]"
 
         app.logger.info('Fetching response from OpenAI')
 
