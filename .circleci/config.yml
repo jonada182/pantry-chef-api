@@ -24,10 +24,15 @@ jobs:
     steps:
       - checkout
       - create_env_file
+      - run:
+          name: Install Packages
+          command: |
+            pip install --upgrade pip pip install --trusted-host pypi.python.org -r requirements.txt
       # Add linter
       - run:
           name: Run Tests
-          command: python -m pytest tests/
+          command: |
+            python -m pytest tests/
 
   deploy:
     docker:
