@@ -25,7 +25,9 @@ jobs:
       - checkout
       - create_env_file
       # Add linter
-      - pytest tests
+      - run:
+          name: Run Tests
+          command: python -m pytest tests/
 
   deploy:
     docker:
