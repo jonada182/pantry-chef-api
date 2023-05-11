@@ -24,6 +24,17 @@ jobs:
     steps:
       - checkout
       - create_env_file
+      # Add linter
+      - pytest tests
+
+  deploy:
+    docker:
+      - image: cimg/base:2023.04
+    environment:
+      CONTAINER_NAME: "chatbot-api"
+    steps:
+      - checkout
+      - create_env_file
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -38,15 +49,6 @@ jobs:
           command: |
             docker tag $CONTAINER_NAME:latest $ECR_REGISTRY/$CONTAINER_NAME:latest
             docker push $ECR_REGISTRY/$CONTAINER_NAME:latest
-
-  deploy:
-    docker:
-      - image: cimg/base:2023.04
-    environment:
-      CONTAINER_NAME: "chatbot-api"
-    steps:
-      - checkout
-      - create_env_file
       - add_ssh_keys:
           fingerprints:
           - "e6:b0:dd:bb:2a:ba:c3:ba:a4:0f:91:da:07:2b:e2:71"
