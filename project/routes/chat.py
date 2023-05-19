@@ -20,7 +20,7 @@ def chat():
     is_recipe = False
     if request.json and 'is_recipe' in request.json and request.json['is_recipe'] is True:
         is_recipe = True
-        generate_image = True
+        # generate_image = True
 
     if not request.json or not 'message' in request.json:
         abort(400, 'Missing message parameter')
@@ -31,7 +31,7 @@ def chat():
         abort(400, "Message can't be empty")
 
     if is_recipe:
-        user_message = user_message + " - JSON: title:string, ingredients:string[], instructions:string[]"
+        user_message = "JSON Only(title:string, ingredients:string[], instructions:string[]). " + user_message
 
     current_app.logger.info('Fetching response from OpenAI')
 
@@ -72,7 +72,7 @@ def chat():
             image_response = openai.Image.create(
                 prompt=generated_text['title'],
                 n=1,
-                size="1024x1024",
+                size="512x512",
             )
             image_url = image_response['data'][0]['url']
     except Exception as e:
