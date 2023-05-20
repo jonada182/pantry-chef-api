@@ -58,7 +58,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            docker build -t $IMAGE_NAME .
+            docker build -t $IMAGE_NAME
             docker tag $IMAGE_NAME registry.heroku.com/$HEROKU_APP_NAME/app
             docker push registry.heroku.com/$HEROKU_APP_NAME/app
       - run:
