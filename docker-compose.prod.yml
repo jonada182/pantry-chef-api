@@ -11,6 +11,7 @@ services:
     environment:
       MONGO_URI: "mongodb://mongo:27017/chatbot"
     restart: on-failure:5
+    image: jonatancaraballo/chatbot-api:latest
   mongo:
     image: mongo:5.0.16
     volumes:
