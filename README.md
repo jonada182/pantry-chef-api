@@ -11,7 +11,7 @@ A Flask application that uses the [OpenAI Chat API](https://platform.openai.com/
 ```
 OPENAI_API_KEY=YOUR_API_KEY
 OPENAI_ORG_ID=YOUR_ORG_ID
-FLASK_RUN_PORT=8000
+PORT=8000
 FLASK_ENV=development
 ```
 
@@ -48,7 +48,7 @@ The API key for the OpenAI API. This is a required field.
 
 The organization ID for the OpenAI API. This is a required field.
 
-### `FLASK_RUN_PORT`
+### `PORT`
 
 The port number that Flask can use to expose the API. (Recommended: 8000)
 

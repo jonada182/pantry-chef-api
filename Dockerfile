@@ -14,8 +14,8 @@ ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 RUN pip install --upgrade pip \
     pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Expose port ${FLASK_RUN_PORT} for Flask
-EXPOSE $FLASK_RUN_PORT
+# Expose port ${PORT} for Flask
+EXPOSE $PORT
 
 # Run the command to start Flask
-CMD flask run -h 0.0.0.0 -p $FLASK_RUN_PORT
+CMD flask run -h 0.0.0.0 -p $PORT

@@ -7,7 +7,7 @@ commands:
       - run:
           name: Create .env file
           command: |
-            echo "FLASK_RUN_PORT=$FLASK_RUN_PORT" > .env
+            echo "PORT=$PORT" > .env
             echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
             echo "OPENAI_ORG_ID=$OPENAI_ORG_ID" >> .env
             echo "MONGO_URI=$MONGO_URI" >> .env
