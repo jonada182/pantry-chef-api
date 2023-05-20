@@ -14,7 +14,9 @@ services:
   mongo:
     image: mongo:5.0.16
     volumes:
-      - ./data:/data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
     restart: on-failure:5
+volumes:
+  mongo_data:
