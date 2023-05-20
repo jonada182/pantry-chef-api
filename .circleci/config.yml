@@ -10,6 +10,7 @@ commands:
             echo "FLASK_RUN_PORT=$FLASK_RUN_PORT" > .env
             echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
             echo "OPENAI_ORG_ID=$OPENAI_ORG_ID" >> .env
+            echo "MONGO_URI=$MONGO_URI" >> .env
 
 jobs:
   build:
@@ -29,26 +30,41 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            python -m pytest tests/
+            FLASK_ENV=testing python -m pytest tests/
 
   deploy:
     docker:
       - image: cimg/base:2023.04
     environment:
       CONTAINER_NAME: "chatbot-api"
+      HEROKU_APP_NAME: "chatbot-api-service"
     steps:
       - checkout
       - create_env_file
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build the Docker image
-          command: docker-compose -f docker-compose.prod.yml build
-      - run:
-          name: Tag and push Docker image
+          name: Install Heroku
           command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $DOCKERHUB_USERNAME/$CONTAINER_NAME:latest
+            curl https://cli-assets.heroku.com/install.sh | sh
+      - run:
+          name: Install Heroku
+          command: |
+            curl https://cli-assets.heroku.com/install.sh | sh
+      - run:
+          name: Login to Heroku Container registry
+          command: |
+            echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t $IMAGE_NAME .
+            docker tag $IMAGE_NAME registry.heroku.com/$HEROKU_APP_NAME/app
+            docker push registry.heroku.com/$HEROKU_APP_NAME/app
+      - run:
+          name: Deploy to Heroku
+          command: |
+            heroku container:release app --app $HEROKU_APP_NAME
 
 workflows:
   version: 2

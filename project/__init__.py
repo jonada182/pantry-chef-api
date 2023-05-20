@@ -9,7 +9,7 @@ app = Flask(__name__)
 cors = CORS(app)
 
 # Initializes DB client and seeds the database
-if os.environ.get('FLASK_ENV', 'testing') != 'testing':
+if os.environ.get('FLASK_ENV') != 'testing':
     with app.app_context():
         dbClient = initDB()
         seedData(dbClient)
