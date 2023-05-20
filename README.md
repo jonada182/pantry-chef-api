@@ -52,9 +52,9 @@ The organization ID for the OpenAI API. This is a required field.
 
 The port number that Flask can use to expose the API. (Recommended: 8000)
 
-### `FLASK_ENV`
+### `FLASK_DEBUG`
 
-The environment (development/production) you would like the Flask app to use. (Recommended: development)
+(Recommended: true)
 
 ## Learn More
 
