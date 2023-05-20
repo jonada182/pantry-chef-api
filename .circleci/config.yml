@@ -43,7 +43,7 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Build the Docker image
-          command: docker build -t $DOCKERHUB_USERNAME/$CONTAINER_NAME:latest -f docker-compose.prod.yml .
+          command: docker-compose -f docker-compose.prod.yml build -t $DOCKERHUB_USERNAME/$CONTAINER_NAME:latest
       - run:
           name: Tag and push Docker image
           command: |
