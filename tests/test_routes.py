@@ -7,6 +7,7 @@ from project import app as flask_app
 from unittest.mock import patch
 
 os.environ['FLASK_DEBUG'] = 'true'
+os.environ['MONGO_URI'] = 'mongodb://mongo:27017/chatbot'
 
 mongouri = os.getenv('MONGO_URI', 'mongodb://mongo:27017/chatbot')
 @mongomock.patch(servers=((mongouri),))

@@ -64,10 +64,11 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
+    # temporarily disable deployment
+    #   - deploy:
+    #       requires:
+    #         - build
+    #       filters:
+    #         branches:
+    #           only:
+    #             - main
