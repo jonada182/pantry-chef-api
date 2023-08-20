@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            FLASK_ENV=testing python -m pytest tests/
+            FLASK_DEBUG=true python -m pytest tests/
 
   deploy:
     docker:

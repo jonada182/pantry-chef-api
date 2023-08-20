@@ -12,7 +12,7 @@ A Flask application that uses the [OpenAI Chat API](https://platform.openai.com/
 OPENAI_API_KEY=YOUR_API_KEY
 OPENAI_ORG_ID=YOUR_ORG_ID
 PORT=8000
-FLASK_ENV=development
+FLASK_DEBUG=true
 ```
 
 4.  Run `docker-compose up` to start the application
