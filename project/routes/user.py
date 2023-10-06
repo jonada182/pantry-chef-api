@@ -1,3 +1,4 @@
+import html
 from bson import ObjectId
 from flask import Blueprint, abort, jsonify, request
 from project.db import initDB, json_encoder, parse_object_ids
@@ -10,6 +11,7 @@ userBp = Blueprint('user', __name__)
 @userBp.route('/user/<user_id>/groceries')
 def get_user_groceries(user_id):
     try:
+        user_id = html.escape(user_id)
         dbClient = initDB()
         user_groceries = dbClient['user.groceries']
         items = user_groceries.find({'user_id': user_id})
@@ -20,6 +22,8 @@ def get_user_groceries(user_id):
 @userBp.route('/user/<user_id>/groceries/<grocery_item_id>', methods=['POST'])
 def post_user_grocery_item(user_id, grocery_item_id):
     try:
+        user_id = html.escape(user_id)
+        grocery_item_id = html.escape(grocery_item_id)
         dbClient = initDB()
         items_collection = dbClient['groceries.items']
         user_groceries = dbClient['user.groceries']
@@ -41,6 +45,8 @@ def post_user_grocery_item(user_id, grocery_item_id):
 @userBp.route('/user/<user_id>/groceries/<grocery_item_id>', methods=['DELETE'])
 def delete_user_grocery_item(user_id, grocery_item_id):
     try:
+        user_id = html.escape(user_id)
+        grocery_item_id = html.escape(grocery_item_id)
         dbClient = initDB()
         user_groceries = dbClient['user.groceries']
         
@@ -57,6 +63,7 @@ def delete_user_grocery_item(user_id, grocery_item_id):
 @userBp.route('/user/<user_id>/recipes')
 def get_user_recipes(user_id):
     try:
+        user_id = html.escape(user_id)
         dbClient = initDB()
         user_recipes = dbClient['user.recipes']
         items = user_recipes.find({'user_id': user_id})
@@ -113,6 +120,8 @@ def post_user_recipe(user_id):
 @userBp.route('/user/<user_id>/recipes/<recipe_id>', methods=['DELETE'])
 def delete_user_recipe(user_id, recipe_id):
     try:
+        user_id = html.escape(user_id)
+        recipe_id = html.escape(recipe_id)
         dbClient = initDB()
         user_recipes = dbClient['user.recipes']
         

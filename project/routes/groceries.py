@@ -1,3 +1,4 @@
+import html
 from bson import ObjectId
 from flask import Blueprint, jsonify
 from project.db import initDB, json_encoder, parse_object_ids
@@ -17,6 +18,7 @@ def get_categories():
 # Define "groceries/categories/$id" endpoint
 @groceriesBp.route('/groceries/categories/<category_id>')
 def get_category(category_id):
+    category_id = html.escape(category_id)
     dbClient = initDB()
     categories_collection = dbClient['groceries.categories']
     items_collection = dbClient['groceries.items']
