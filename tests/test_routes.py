@@ -7,9 +7,9 @@ from project import app as flask_app
 from unittest.mock import patch
 
 os.environ['FLASK_DEBUG'] = 'true'
-os.environ['MONGO_URI'] = 'mongodb://mongo:27017/chatbot'
+os.environ['MONGO_URI'] = 'mongodb://mongo:27017/pantry-chef'
 
-mongouri = os.getenv('MONGO_URI', 'mongodb://mongo:27017/chatbot')
+mongouri = os.getenv('MONGO_URI', 'mongodb://mongo:27017/pantry-chef')
 @mongomock.patch(servers=((mongouri),))
 
 # Define a fixture for the OpenAI API mock when is_recipe is False

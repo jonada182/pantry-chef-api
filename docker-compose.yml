@@ -1,22 +1,22 @@
 version: "3"
 services:
-  app:
-    build: .
-    ports:
-      - "${PORT}:${PORT}"
-    env_file:
-      - .env
-    volumes:
-      - ./project:/app/project
-    depends_on:
-      - mongo
-    environment:
-      MONGO_URI: "mongodb://mongo:27017/chatbot"
-  mongo:
-    image: mongo:5.0.16
-    volumes:
-      - mongo_data:/data/db
-    ports:
-      - "27017:27017"
+    app:
+        build: .
+        ports:
+            - "${PORT}:${PORT}"
+        env_file:
+            - .env
+        volumes:
+            - ./project:/app/project
+        depends_on:
+            - mongo
+        environment:
+            MONGO_URI: "mongodb://mongo:27017/pantry-chef"
+    mongo:
+        image: mongo:5.0.16
+        volumes:
+            - mongo_data:/data/db
+        ports:
+            - "27017:27017"
 volumes:
-  mongo_data:
+    mongo_data:

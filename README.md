@@ -1,6 +1,6 @@
-# Chatbot API
+# Pantry Chef API
 
-A Flask application that uses the [OpenAI Chat API](https://platform.openai.com/docs/guides/chat) for a Chatbot application
+A Flask application that uses the [OpenAI Chat API](https://platform.openai.com/docs/guides/chat) for Pantry Chef
 
 ## Getting Started
 

@@ -33,8 +33,8 @@ jobs:
     docker:
       - image: cimg/base:2023.04
     environment:
-      CONTAINER_NAME: "chatbot-api"
-      HEROKU_APP_NAME: "chatbot-api-service"
+      CONTAINER_NAME: "pantry-chef-api"
+      HEROKU_APP_NAME: "pantry-chef-api-service"
     steps:
       - checkout
       - create_env_file
